@@ -1,0 +1,4 @@
+V5:
+- Uvicorn use_colors=False: bỏ ký tự ANSI rác trong CMD.
+- Khi server mở đúng DASHBOARD_PORT, tự mở trình duyệt mặc định.
+- Nếu đổi dashboard port trong DUCTOOL Settings, lần chạy sau sẽ mở đúng port mới.

@@ -1,0 +1,36 @@
+1. DONG Chrome session cu cua tool dang bai neu no dang mo.
+2. Chay ban FB Poster CDP va chon Chrome 1/2/3/4.
+3. De FB Poster + Chrome do tiep tuc chay.
+4. Sang tool Messenger: CHON_CHROME.bat -> chon cung so Chrome.
+5. TEST_CHROME.bat. Phai thay KET NOI THANH CONG.
+6. CHAY_TOOL.bat.
+7. Mo http://127.0.0.1:8000 va bam START.
+
+Telegram config: C:\duc\.env
+
+
+BAN NAY QUET:
+- Tin nhan chinh
+- Tin nhan cho
+- Spam / Thu rac trong Message Requests
+
+Neu Telegram bao loi, chay TEST_TELEGRAM.bat.
+No se hien loi that cua Telegram, vi du 'chat not found'.
+Neu token da bi lo, hay revoke/regenerate token o BotFather va cap nhat C:\duc\.env.
+
+
+LOC 30 PHUT:
+- Chi gui Telegram cac conversation co thoi gian hien thi <= 30 phut.
+- Tin cu hon 30 phut se bo qua.
+- Neu Messenger khong hien timestamp ro rang, tool bo qua de tranh gui nham tin cu.
+
+
+CHI LAY TIN NHAN DEN:
+- Bo qua preview co 'Ban:', 'Ban da gui', 'You:', 'You sent'...
+- Muc dich: khong gui Telegram khi tin moi nhat la do chinh ban gui.
+
+
+CHONG LAP:
+- Cung source + nguoi gui + noi dung duoc chuan hoa chi gui Telegram 1 lan trong 24 gio.
+- Thay doi nhan thoi gian nhu 5m -> 6m khong tao thong bao moi.
+- Van giu messages.db de nho cac tin da xu ly qua lan khoi dong sau.

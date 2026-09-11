@@ -1,0 +1,208 @@
+name: Build and Release DUCTOOL for Windows
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ductool-windows-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Read release metadata
+        id: meta
+        shell: pwsh
+        run: |
+          $meta = Get-Content "version.json" -Raw -Encoding UTF8 | ConvertFrom-Json
+          $version = [string]$meta.version
+          if ($version -notmatch '^\d+\.\d+\.\d+$') {
+            throw "version.json must contain a version such as 1.1.0"
+          }
+
+          "version=$version" >> $env:GITHUB_OUTPUT
+          New-Item -ItemType Directory -Force -Path "build" | Out-Null
+          "# DUCTOOL v$version`n`n$($meta.changelog)" | Set-Content "build/RELEASE_NOTES.md" -Encoding UTF8
+
+          $parts = $version.Split('.')
+          $major = [int]$parts[0]
+          $minor = [int]$parts[1]
+          $patch = [int]$parts[2]
+          $versionInfo = @"
+          VSVersionInfo(
+            ffi=FixedFileInfo(
+              filevers=($major, $minor, $patch, 0),
+              prodvers=($major, $minor, $patch, 0),
+              mask=0x3f,
+              flags=0x0,
+              OS=0x40004,
+              fileType=0x1,
+              subtype=0x0,
+              date=(0, 0)
+            ),
+            kids=[
+              StringFileInfo([
+                StringTable('040904B0', [
+                  StringStruct('CompanyName', 'Duc Tool'),
+                  StringStruct('FileDescription', 'DUCTOOL Windows App'),
+                  StringStruct('FileVersion', '$version'),
+                  StringStruct('InternalName', 'DUCTOOL'),
+                  StringStruct('OriginalFilename', 'DUCTOOL.exe'),
+                  StringStruct('ProductName', 'DUCTOOL'),
+                  StringStruct('ProductVersion', '$version')
+                ])
+              ]),
+              VarFileInfo([VarStruct('Translation', [1033, 1200])])
+            ]
+          )
+          "@
+          $versionInfo | Set-Content "build/version_info.txt" -Encoding UTF8
+
+      - name: Install build dependencies
+        shell: pwsh
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install --requirement requirements.txt
+          python -m pip install "pyinstaller>=6.10,<7" "pillow>=10,<12"
+          choco install innosetup --no-progress --yes
+
+      - name: Preflight and unit tests
+        shell: pwsh
+        run: |
+          $required = @(
+            "ductool_app.py",
+            "ductool_config.py",
+            "ductool_chrome.py",
+            "ductool_license.py",
+            "ductool_updater.py",
+            "ductool_image_renamer.py",
+            "version.json",
+            "installer/DUCTOOL.iss",
+            "AUTO_DANG_BAI_FACEBOOK/main.py",
+            "AUTO_CHECK_MESSENGER/run.py",
+            "AUTO_CHECK_MESSENGER/app/main.py",
+            "AUTO_CHECK_MESSENGER/app/watcher.py",
+            "AUTO_GROUP_COLLECTOR/main.py",
+            "AUTO_GROUP_JOIN/main.py",
+            "assets/logo.ico",
+            "assets/logo.png"
+          )
+          foreach ($file in $required) {
+            if (-not (Test-Path $file)) { throw "Missing required file: $file" }
+          }
+          python -m compileall -q .
+          python -m unittest test_channel_integration.py test_license_binding.py test_messenger_sender.py test_notifications.py
+
+      - name: Build DUCTOOL.exe
+        shell: cmd
+        run: >
+          pyinstaller --noconfirm --clean --onefile --windowed
+          --name DUCTOOL
+          --icon assets/logo.ico
+          --version-file build/version_info.txt
+          --paths .
+          --paths AUTO_CHECK_MESSENGER
+          --collect-all playwright
+          --collect-submodules app
+          --hidden-import app.main
+          --hidden-import app.watcher
+          --hidden-import app.messenger
+          --hidden-import app.chrome_selector
+          --hidden-import app.storage
+          --hidden-import app.telegram_client
+          --hidden-import AUTO_DANG_BAI_FACEBOOK.main
+          --hidden-import AUTO_CHECK_MESSENGER.run
+          --hidden-import AUTO_GROUP_COLLECTOR.main
+          --hidden-import AUTO_GROUP_JOIN.main
+          --hidden-import ductool_chrome
+          --hidden-import ductool_notifications
+          --hidden-import ductool_config
+          --hidden-import ductool_license
+          --hidden-import ductool_updater
+          --hidden-import ductool_image_renamer
+          --hidden-import uvicorn.logging
+          --hidden-import uvicorn.loops.auto
+          --exclude-module test
+          --exclude-module unittest
+          --exclude-module pydoc
+          --exclude-module lib2to3
+          --add-data "version.json;."
+          --add-data "assets;assets"
+          --add-data "AUTO_DANG_BAI_FACEBOOK;AUTO_DANG_BAI_FACEBOOK"
+          --add-data "AUTO_CHECK_MESSENGER;AUTO_CHECK_MESSENGER"
+          --add-data "AUTO_GROUP_COLLECTOR;AUTO_GROUP_COLLECTOR"
+          --add-data "AUTO_GROUP_JOIN;AUTO_GROUP_JOIN"
+          ductool_app.py
+
+      - name: Smoke test executable
+        shell: pwsh
+        run: |
+          if ((Get-Item "dist/DUCTOOL.exe").Length -lt 1MB) {
+            throw "DUCTOOL.exe is unexpectedly small"
+          }
+          $process = Start-Process -FilePath "dist/DUCTOOL.exe" -ArgumentList "--version" -Wait -PassThru
+          if ($process.ExitCode -ne 0) {
+            throw "DUCTOOL.exe smoke test failed with exit code $($process.ExitCode)"
+          }
+
+      - name: Build Windows installer
+        shell: pwsh
+        run: |
+          iscc "/DMyAppVersion=${{ steps.meta.outputs.version }}" "installer/DUCTOOL.iss"
+          if (-not (Test-Path "dist/DUCTOOL-Setup.exe")) {
+            throw "Installer was not created"
+          }
+
+      - name: Create SHA-256 checksums
+        shell: pwsh
+        run: |
+          $exeHash = (Get-FileHash "dist/DUCTOOL.exe" -Algorithm SHA256).Hash.ToLowerInvariant()
+          $setupHash = (Get-FileHash "dist/DUCTOOL-Setup.exe" -Algorithm SHA256).Hash.ToLowerInvariant()
+          @(
+            "$exeHash  DUCTOOL.exe",
+            "$setupHash  DUCTOOL-Setup.exe"
+          ) | Set-Content "dist/SHA256SUMS.txt" -Encoding ASCII
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: DUCTOOL-Windows-v${{ steps.meta.outputs.version }}
+          path: |
+            dist/DUCTOOL.exe
+            dist/DUCTOOL-Setup.exe
+            dist/SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Publish GitHub Release
+        if: github.ref == 'refs/heads/main'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.meta.outputs.version }}
+          target_commitish: ${{ github.sha }}
+          name: DUCTOOL v${{ steps.meta.outputs.version }}
+          body_path: build/RELEASE_NOTES.md
+          make_latest: true
+          fail_on_unmatched_files: true
+          files: |
+            dist/DUCTOOL.exe
+            dist/DUCTOOL-Setup.exe
+            dist/SHA256SUMS.txt

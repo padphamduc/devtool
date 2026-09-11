@@ -1,0 +1,11 @@
+﻿{
+  "version": "1.1.0",
+  "min_version": "1.0.0",
+  "force_update": false,
+  "title": "Bản cài Windows và tự động cập nhật",
+  "changelog": "- Thêm bộ cài DUCTOOL-Setup.exe\n- Tự tạo biểu tượng DUCTOOL ngoài Desktop\n- Tự kiểm tra và cài bản mới từ GitHub Releases\n- Kiểm tra SHA-256 trước khi chạy bản cập nhật",
+  "exe_url": "https://github.com/padphamduc/devtool/releases/latest/download/DUCTOOL.exe",
+  "setup_url": "https://github.com/padphamduc/devtool/releases/latest/download/DUCTOOL-Setup.exe",
+  "checksum_url": "https://github.com/padphamduc/devtool/releases/latest/download/SHA256SUMS.txt",
+  "release_page": "https://github.com/padphamduc/devtool/releases/latest"
+}

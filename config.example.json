@@ -1,0 +1,79 @@
+{
+  "general": {
+    "chrome_profile_root": "C:\\duc\\FacebookChrome",
+    "chrome_slots": 4,
+    "chrome_port_base": 9310,
+    "selected_chrome": 1
+  },
+  "chrome": {
+    "executable": "",
+    "profile_root": "C:\\duc\\FacebookChrome",
+    "ports": {
+      "1": 9311,
+      "2": 9312,
+      "3": 9313,
+      "4": 9314
+    },
+    "proxies": {
+      "1": "",
+      "2": "",
+      "3": "",
+      "4": ""
+    },
+    "default_slot": 1
+  },
+  "facebook": {
+    "sheet_url": "https://docs.google.com/spreadsheets/d/13liLEM_fsEfuR2KJDYX-vdKRuAqZv-Dlg2RaAHGC6zY/edit?gid=0#gid=0",
+    "sheet_csv_url": "https://docs.google.com/spreadsheets/d/13liLEM_fsEfuR2KJDYX-vdKRuAqZv-Dlg2RaAHGC6zY/export?format=csv&gid=0",
+    "content_dir": "C:\\duc\\baiviet",
+    "image_dir": "C:\\duc\\baiviet\\anhdangbai",
+    "content_files": [],
+    "txt_files": [],
+    "image_files": [],
+    "content_count": 10,
+    "groups_per_content": 10,
+    "image_count": 20,
+    "delay_min": 5.0,
+    "delay_max": 12.0,
+    "delay_between_groups_seconds": 10.0,
+    "delay_after_text_seconds": 1.0,
+    "delay_after_images_seconds": 1.0,
+    "delay_before_post_seconds": 1.0,
+    "rest_every": 0,
+    "jobs_before_break": 10,
+    "rest_seconds": 0,
+    "break_after_jobs_seconds": 120.0,
+    "break_after_cycle_seconds": 600.0,
+    "google_login_wait_seconds": 120,
+    "log_file": "",
+    "log_path": "C:\\duc\\fb_post_log.csv",
+    "state_path": "C:\\duc\\fb_post_state.json",
+    "crash_log_path": "C:\\duc\\fb_tool_crash.log",
+    "failed_groups_path": "C:\\duc\\fb_group_loi.txt"
+  },
+  "messenger": {
+    "telegram_bot_token": "",
+    "telegram_chat_id": "",
+    "poll_seconds": 30,
+    "max_age_minutes": 30,
+    "max_message_age_minutes": 30,
+    "dedupe_hours": 24,
+    "inbox_url": "https://www.messenger.com/",
+    "requests_url": "https://www.messenger.com/requests/",
+    "spam_url": "https://www.messenger.com/requests/spam/",
+    "dashboard_port": 8000,
+    "notification_provider": "telegram",
+    "zalo_bot_token": "",
+    "zalo_chat_id": ""
+  },
+  "collector": {
+    "sheet_url": "",
+    "fields": "123",
+    "tab_count": 3
+  },
+  "joiner": {
+    "sheet_url": "",
+    "tab_count": 1,
+    "delay_seconds": 10
+  }
+}

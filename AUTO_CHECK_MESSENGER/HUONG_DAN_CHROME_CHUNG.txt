@@ -1,0 +1,17 @@
+CHROME CHUNG NHUNG 2 TOOL KHONG PHU THUOC NHAU
+
+1. Chon Chrome 1/2/3/4 trong Messenger.
+2. Messenger chay truoc cung duoc:
+   - Neu Chrome chung chua mo -> Messenger tu mo.
+   - Neu Chrome chung da mo -> Messenger ket noi vao.
+3. FB Poster chay truoc cung duoc:
+   - Neu Chrome chung chua mo -> FB Poster tu mo.
+   - Neu Chrome chung da mo -> FB Poster ket noi vao.
+4. Hai tool phai chon CUNG SO CHROME neu muon dung chung dang nhap.
+5. Tat mot tool KHONG dong Chrome chung.
+
+Profile:
+Chrome 1 = C:\duc\FacebookChrome\Chrome_1, port 9311
+Chrome 2 = C:\duc\FacebookChrome\Chrome_2, port 9312
+Chrome 3 = C:\duc\FacebookChrome\Chrome_3, port 9313
+Chrome 4 = C:\duc\FacebookChrome\Chrome_4, port 9314
