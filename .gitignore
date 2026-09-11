@@ -1,0 +1,12 @@
+config.json
+.venv/
+__pycache__/
+*.pyc
+messages.db
+*.db
+*.log
+build/
+dist/
+*.spec
+tool-main/
+tool-main.zip
