@@ -12,6 +12,7 @@ Khách hàng chỉ cần tải **`DUCTOOL-Setup.exe`** và mở bộ cài:
 
 - Cài ứng dụng vào tài khoản Windows hiện tại, không yêu cầu cài Python.
 - Tự tạo biểu tượng **DUCTOOL** ngoài Desktop và trong Start Menu.
+- Có mục **Gỡ cài đặt DUCTOOL** trong Start Menu và trong **Settings → Apps → Installed apps**.
 - Tự mở ứng dụng sau khi cài xong.
 - Giữ nguyên cấu hình và dữ liệu khi nâng cấp.
 

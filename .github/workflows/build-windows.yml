@@ -103,7 +103,8 @@ jobs:
             "AUTO_GROUP_COLLECTOR/main.py",
             "AUTO_GROUP_JOIN/main.py",
             "assets/logo.ico",
-            "assets/logo.png"
+            "assets/logo.png",
+            "assets/setup-wizard.png"
           )
           foreach ($file in $required) {
             if (-not (Test-Path $file)) { throw "Missing required file: $file" }
