@@ -38,9 +38,6 @@ VersionInfoDescription=Bộ cài {#MyAppName}
 VersionInfoProductName={#MyAppName}
 VersionInfoProductVersion={#MyAppVersion}
 
-[Languages]
-Name: "vietnamese"; MessagesFile: "compiler:Languages\Vietnamese.isl"
-
 [Files]
 Source: "..\dist\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion restartreplace
 
