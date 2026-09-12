@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>DUC TOOL - Facebook Group List</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <pre>╔══════════════════════╗
+║       DUC TOOL       ║
+╚══════════════════════╝</pre>
+    <div class="subtitle">FACEBOOK GROUP LIST</div>
+  </header>
+
+  <main>
+    <div class="toolbar">
+      <button id="openPage" class="secondary">Mở trang nhóm</button>
+      <button id="scan" class="primary">Quét tất cả nhóm</button>
+    </div>
+    <div id="status" class="status">Mở trang Nhóm đã tham gia rồi bấm Quét.</div>
+
+    <div class="filter-row">
+      <input id="search" type="search" placeholder="Tìm theo tên hoặc ID…">
+      <span id="counter">0 nhóm</span>
+    </div>
+
+    <div class="select-row">
+      <label><input id="selectAll" type="checkbox"> Chọn tất cả đang hiển thị</label>
+      <button id="clear" class="link-button">Xóa danh sách</button>
+    </div>
+
+    <details class="api-box">
+      <summary>Kết nối web quản trị</summary>
+      <input id="apiUrl" type="url" placeholder="https://domain.com/api/groups.php">
+      <input id="apiKey" type="password" placeholder="Khóa API">
+      <input id="deviceName" type="text" placeholder="Tên máy, ví dụ: PC-DUC">
+      <div class="toolbar"><button id="saveApi" class="secondary">Lưu kết nối</button><button id="sync" class="primary">Gửi lên web</button></div>
+    </details>
+
+    <section id="list" class="list"></section>
+  </main>
+
+  <footer>
+    <button id="copy" class="secondary">Sao chép đã chọn</button>
+    <button id="csv" class="primary">Xuất CSV đã chọn</button>
+  </footer>
+
+  <script src="popup.js"></script>
+</body>
+</html>

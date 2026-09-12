@@ -1,0 +1,33 @@
+:root { color-scheme: light; font-family: Inter, "Segoe UI", Arial, sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; width: 520px; min-height: 580px; background: #f5f7fb; color: #172033; }
+header { color: white; padding: 14px 18px 12px; text-align: center; background: linear-gradient(135deg,#111827,#1877f2); }
+header pre { margin: 0; font: 700 14px/1.12 Consolas, monospace; }
+.subtitle { margin-top: 7px; font-size: 12px; font-weight: 800; letter-spacing: 1.6px; opacity: .88; }
+main { padding: 14px; }
+.toolbar, footer { display: flex; gap: 9px; }
+button { border: 0; border-radius: 9px; padding: 10px 12px; font-weight: 700; cursor: pointer; }
+button:disabled { cursor: not-allowed; opacity: .55; }
+.primary { background: #1877f2; color: white; flex: 1; }
+.secondary { color: #1d4f91; background: #e7f0ff; flex: 1; }
+.status { margin: 10px 0; padding: 9px 11px; border-radius: 8px; background: white; font-size: 12px; color: #59657a; border: 1px solid #e4e8f0; }
+.status.error { color: #a61b1b; background: #fff0f0; border-color: #ffcaca; }
+.filter-row { display: flex; gap: 10px; align-items: center; }
+#search { flex: 1; border: 1px solid #ccd4e0; border-radius: 8px; padding: 10px; outline: none; }
+#search:focus { border-color: #1877f2; box-shadow: 0 0 0 2px #dbeaff; }
+#counter { white-space: nowrap; font-size: 12px; font-weight: 700; }
+.select-row { min-height: 39px; display: flex; align-items: center; justify-content: space-between; font-size: 12px; }
+.link-button { color: #c42b2b; background: transparent; padding: 5px; }
+.api-box { margin: 0 0 10px; padding: 9px; border-radius: 9px; background: white; border: 1px solid #e1e6ef; }
+.api-box summary { cursor: pointer; font-size: 12px; font-weight: 800; }
+.api-box input { width: 100%; margin-top: 8px; border: 1px solid #ccd4e0; border-radius: 7px; padding: 8px; }
+.api-box .toolbar { margin-top: 8px; }
+.list { height: 350px; overflow: auto; border: 1px solid #e1e6ef; border-radius: 10px; background: white; }
+.empty { padding: 70px 20px; color: #7c8799; text-align: center; }
+.group { display: grid; grid-template-columns: 25px 49px 1fr; gap: 9px; align-items: center; padding: 9px; border-bottom: 1px solid #edf0f5; }
+.group:last-child { border-bottom: 0; }
+.group:hover { background: #f7faff; }
+.group img { width: 46px; height: 46px; border-radius: 9px; object-fit: cover; background: #e7ebf2; }
+.group .name { color: #172033; font-size: 13px; font-weight: 700; text-decoration: none; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.group .meta { margin-top: 4px; color: #69758a; font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+footer { position: sticky; bottom: 0; padding: 12px 14px; background: white; border-top: 1px solid #dfe4ec; }
