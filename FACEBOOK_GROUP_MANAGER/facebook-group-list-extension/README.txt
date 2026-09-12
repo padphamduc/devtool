@@ -1,4 +1,4 @@
-DUC TOOL - FACEBOOK GROUP LIST v1.0.0
+DUC TOOL - FACEBOOK GROUP LIST v1.1.0
 
 CÀI ĐẶT VÀO C:\ducextend
 1. Giải nén đầy đủ file ZIP.
